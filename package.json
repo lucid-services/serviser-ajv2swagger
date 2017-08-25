@@ -1,9 +1,7 @@
 {
     "name": "ajv2swagger",
     "version": "0.1.0",
-    "author": {
-        "email": "fogine@opmbx.org"
-    },
+    "author": "Bohemia Interactive",
     "license": "GPL-3.0",
     "description": "Generates swagger (Open API) specification out of provided ajv schema",
     "scripts": {
