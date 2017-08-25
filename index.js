@@ -11,15 +11,15 @@ module.exports.convert = convert;
  *
  * @return {Function} - function which returns swagger parameters collection {Array}
  */
-function toSwagger(id, validator, opt) {
-    const swagger
+function toSwagger(id, validator, oas) {
+    var swagger
     ,   schema = validator.getSchema(id);
 
     if (!schema) {
         throw new Error(`Schema: ${id} not found`);
     }
 
-    swagger = convert(schema.schema);
+    swagger = convert(schema.schema, oas);
 
     /**
      * @param {Object} options
@@ -100,12 +100,19 @@ function convert(schema, oas, _parentSchema) {
             && schema.type.length <= 2
             && ~schema.type.indexOf('null')
         ) {
-            schema.nullable = true;
+            if (oas >= 3) { //since OAS 3.x
+                schema.nullable = true;
+            }
             if (schema.type.length == 2) {
                 schema.type.splice(schema.type.indexOf('null'), 1);
             }
 
             schema.type = schema.type.shift();
+        } else if (schema.type instanceof Array && schema.type.length >= 2) {
+            //OAS does not support multi-type properties
+            //thus we must fallback to string type which can essentially be
+            //enything (see https://github.com/OAI/OpenAPI-Specification/issues/229)
+            schema.type = 'string';
         }
     }
 
@@ -117,7 +124,7 @@ function convert(schema, oas, _parentSchema) {
 
     //if the schema describes deep nested data structures, mark it as such
     //so we can later decide how we will present the schema
-    if (_parentSchema) {
+    if (_parentSchema && schema.type === 'object') {
         Object.defineProperty(
             _parentSchema,
             'hasComplexDataStructures',
@@ -137,19 +144,36 @@ function convert(schema, oas, _parentSchema) {
                 && schema[keyword] instanceof Array
             ) {
                 _.merge(schema, _.merge.apply(_, schema[keyword]));
+                delete schema[keyword];
             }
         });
     }
 
     //recursively iterate throught schema
-    ['properties', 'items', 'additionalProperties'].forEach(function(keyword) {
+    [
+        'properties',
+        'patternProperties',
+    ].forEach(function(keyword) {
         if (   typeof schema[keyword] === 'object'
-            && schema[keyword] !== null
-            && !Array.isArray(schema[keyword])
+            && _.isPlainObject(schema[keyword])
         ) {
             Object.keys(schema[keyword]).forEach(function(prop) {
                 schema[keyword][prop] = convert(schema[keyword][prop], oas, schema);
             });
         }
-    })
+    });
+
+    [
+        'items',
+        'additionalProperties',
+        'additionalItems'
+    ].forEach(function(keyword) {
+        if (   typeof schema[keyword] === 'object'
+            && _.isPlainObject(schema[keyword])
+        ) {
+            schema[keyword] = convert(schema[keyword], oas, schema);
+        }
+    });
+
+    return schema;
 }
