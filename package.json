@@ -21,8 +21,8 @@
         "node": ">=4.0"
     },
     "files": [
-        "./CHANGELOG.md",
-        "./COPYRIGHT",
+        "CHANGELOG.md",
+        "COPYRIGHT",
         "index.js",
         "tests"
     ],
