@@ -20,6 +20,66 @@ describe('toSwagger', function() {
         delete this.validator;
     });
 
+    it('should dereference all `$ref` schema references', function() {
+        this.validator.addSchema({type: 'integer'}, 'id');
+        this.validator.addSchema({type: 'string'}, 'name');
+        this.validator.addSchema({type: 'string'}, 'code_2');
+        this.validator.addSchema({
+            type: 'object',
+            properties: {
+                id: {$ref: 'id'}
+            }
+        }, 'app');
+
+        var schema = {
+            type: 'object',
+            properties: {
+                code_3: {type: 'string'},
+                name: {$ref: 'name'},
+                country: {
+                    type: 'object',
+                    properties: {
+                        code_2: {$ref: 'code_2'},
+                        code_3: {$ref: '#/properties/code_3'}
+                    }
+                },
+                apps: {
+                    type: 'array',
+                    items: {$ref: 'app'}
+                }
+            }
+        };
+
+        this.validator.addSchema(schema, 'schema');
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+
+        var result = toSwagger({in: 'body'});
+        result.should.be.an.instanceof(Array).that.is.not.empty;
+        result.pop().schema.should.be.eql({
+            type: 'object',
+            properties: {
+                code_3: {type: 'string'},
+                name: {type: 'string'},
+                country: {
+                    type: 'object',
+                    properties: {
+                        code_2: {type: 'string'},
+                        code_3: {type: 'string'}
+                    }
+                },
+                apps: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: {type: 'integer'}
+                        }
+                    }
+                }
+            }
+        });
+    });
+
     it('should transform `type:["null", ...]` into `nullable: true` property (OAS v3)', function() {
         var schema = {
             type: 'object',

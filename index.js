@@ -20,6 +20,7 @@ function toSwagger(id, validator, oas) {
     }
 
     swagger = convert(schema.schema, oas);
+    swagger = resolveSchemaRefs(swagger, validator);
 
     /**
      * @param {Object} options
@@ -57,6 +58,60 @@ function toSwagger(id, validator, oas) {
         }
 
         return out;
+    }
+}
+
+/**
+ * dereferences releative $refs and internal references to other ajv validator schemas
+ * @param {Object|Array} val - value
+ * @param {Ajv} validator
+ * @param {Object|Array} _root - initial value
+ * @return {Object}
+ */
+function resolveSchemaRefs(val, validator, _root) {
+
+    _root = _root || val;
+    resolve(val, '', val);
+    return val;
+
+    /*
+     * @param {mixed} val
+     * @param {String|Int} key
+     * @param {Object|Array} object
+     */
+    function resolve(val, key, object) {
+        if (_.isPlainObject(val)) {
+            if (   val.hasOwnProperty('$ref')
+                && typeof val.$ref === 'string'
+            ) {
+
+                var resolved;
+
+                if (val.$ref.indexOf('#') === 0) {
+                    let path = _.compact(val.$ref.slice(1).split('/'));
+                    if (_.has(_root, path)) {
+                        resolved = _.get(_root, path);
+                        _.set(object, key, resolved);
+
+                    }
+                } else if ((resolved = validator.getSchema(val.$ref))) {
+                    resolved = resolved.schema;
+                    _.set(object, key, resolved);
+                }
+
+                do {
+                    resolve(resolved, key, object);
+                }
+                while (   _.isPlainObject(object[key])
+                         && object[key].hasOwnProperty('$ref')
+                );
+            } else {
+                _.forOwn(val, resolve);
+            }
+        } else if (val instanceof Array) {
+            val.forEach(resolve);
+        }
+        //can not return anything because of the lodash.forOwn
     }
 }
 
