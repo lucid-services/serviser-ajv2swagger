@@ -1,41 +1,41 @@
 {
-    "name": "ajv2swagger",
-    "version": "0.1.0",
-    "author": "Bohemia Interactive",
-    "license": "GPL-3.0",
-    "description": "Generates swagger (Open API) specification out of provided ajv schema",
-    "scripts": {
-        "tests": "./node_modules/.bin/mocha --ui bdd --colors --check-leaks -t 5000 --reporter spec 'tests/**/*.js'",
-        "test": "npm run tests",
-        "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec 'tests/**/*.js' -t 5000"
-    },
-    "keywords": [
-        "ajv",
-        "swagger",
-        "swagger-schema",
-        "schema",
-        "Open API",
-        "OAS"
-    ],
-    "engines": {
-        "node": ">=4.0"
-    },
-    "files": [
-        "CHANGELOG.md",
-        "COPYRIGHT",
-        "index.js",
-        "tests"
-    ],
-    "dependencies": {
-        "lodash": "^4.11.x"
-    },
-    "devDependencies": {
-        "ajv": "^5.2.2",
-        "chai": "^3.5.0",
-        "codeclimate-test-reporter": "^0.3.1",
-        "istanbul": "^0.4.3",
-        "mocha": "^2.4.5",
-        "sinon": "^1.17.3",
-        "sinon-chai": "^2.8.0"
-    }
+  "name": "ajv2swagger",
+  "version": "0.1.0",
+  "author": "Bohemia Interactive",
+  "license": "GPL-3.0",
+  "description": "Generates swagger (Open API) specification out of provided ajv schema",
+  "scripts": {
+    "tests": "./node_modules/.bin/mocha --ui bdd --colors --check-leaks -t 5000 --reporter spec 'tests/**/*.js'",
+    "test": "npm run tests",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec 'tests/**/*.js' -t 5000"
+  },
+  "keywords": [
+    "ajv",
+    "swagger",
+    "swagger-schema",
+    "schema",
+    "Open API",
+    "OAS"
+  ],
+  "engines": {
+    "node": ">=4.0"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "COPYRIGHT",
+    "index.js",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "^4.11.x"
+  },
+  "devDependencies": {
+    "ajv": "^5.2.2",
+    "chai": "^3.5.0",
+    "codeclimate-test-reporter": "^0.3.1",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  }
 }
