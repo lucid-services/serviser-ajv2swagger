@@ -1,3 +1,7 @@
+## 0.1.2
+
+* [FIXED] - `toSwagger` function should get rid off the `allOf` schema structure if it's used only for data coercion in `Ajv`
+
 ## 0.1.1
 
 * [ADDED] - dereference internal ajv schema references
