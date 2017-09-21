@@ -202,6 +202,21 @@ function convert(schema, oas, _parentSchema) {
                 delete schema[keyword];
             }
         });
+
+
+        //simplify the "allOf" structure if it's used only for data coerction
+        //before validation
+        if (   schema.hasOwnProperty('allOf')
+            && schema['allOf'] instanceof Array
+            && schema['allOf'].length === 2
+            && _.isPlainObject(schema['allOf'][0])
+            && _.isPlainObject(schema['allOf'][1])
+            && Object.keys(schema['allOf'][0]).length === 1
+            && schema['allOf'][0].hasOwnProperty('$toJSON')
+        ) {
+            _.merge(schema, schema['allOf'][1]);
+            delete schema['allOf'];
+        }
     }
 
     //recursively iterate throught schema
