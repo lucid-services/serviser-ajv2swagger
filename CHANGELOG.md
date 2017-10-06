@@ -1,3 +1,7 @@
+## FUTURE
+
+* [CHANGED] - renamed the package from `ajv2swagger` to `bi-ajv2swagger`
+
 ## 0.1.2
 
 * [FIXED] - `toSwagger` function should get rid off the `allOf` schema structure if it's used only for data coercion in `Ajv`
