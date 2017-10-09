@@ -1,6 +1,6 @@
 {
   "name": "bi-ajv2swagger",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "Bohemia Interactive",
   "license": "GPL-3.0",
   "description": "Generates swagger (Open API) specification out of provided ajv schema",
