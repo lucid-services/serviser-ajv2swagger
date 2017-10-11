@@ -170,6 +170,31 @@ describe('toSwagger', function() {
         });
     });
 
+    it('should NOT alter state of original schema object', function() {
+        const schema = {
+            type: 'object',
+            required: ['prop'],
+            properties: {
+                prop: {
+                    allOf: [
+                        {$toJSON: {}},
+                        {type: 'object'}
+                    ]
+                },
+                prop2: {
+                    type: 'integer',
+                    $desc: 'description'
+                }
+            }
+        };
+
+        const schemaBackup = _.cloneDeep(schema);
+
+        this.validator.addSchema(schema, 'schema', 2);
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+        schema.should.be.eql(schemaBackup);
+    });
+
     it('should merge schemas of `oneOf` keyword into the parent schema (OAS v2) ', function() {
         var schema = {
             type: 'object',

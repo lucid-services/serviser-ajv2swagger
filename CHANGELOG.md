@@ -1,3 +1,7 @@
+## 0.2.1
+
+* [FIXED] - `toSwagger` function should not alter state of original validator schema object (schema object should be cloned)
+
 ## 0.2.0
 
 * [CHANGED] - renamed the package from `ajv2swagger` to `bi-ajv2swagger`
