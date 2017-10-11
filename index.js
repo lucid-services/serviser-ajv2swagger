@@ -13,7 +13,7 @@ module.exports.convert = convert;
  */
 function toSwagger(id, validator, oas) {
     var swagger
-    ,   schema = validator.getSchema(id);
+    ,   schema = _.cloneDeep(validator.getSchema(id));
 
     if (!schema) {
         throw new Error(`Schema: ${id} not found`);
