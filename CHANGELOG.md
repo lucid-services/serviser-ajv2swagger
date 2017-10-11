@@ -1,4 +1,4 @@
-## FUTURE
+## 0.2.1
 
 * [FIXED] - `toSwagger` function should not alter state of original validator schema object (schema object should be cloned)
 
