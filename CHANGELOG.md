@@ -1,4 +1,4 @@
-## FUTURE
+## 0.2.3
 
 * [FIXED] - resolved `$ref`s values should be cloned so that original referenced schema object is not altered
 
