@@ -80,6 +80,47 @@ describe('toSwagger', function() {
         });
     });
 
+    it('should derefence schema $refs before schema sanitization', function() {
+        this.validator.addSchema({
+            type: 'object',
+            properties: {
+                code_2: {
+                    type: ['string', 'null'],
+                    $desc: 'description'
+                }
+            }
+        }, 'country');
+
+        var schema = {
+            type: 'object',
+            properties: {
+                name: {type: 'string'},
+                country: {$ref: 'country'}
+            }
+        };
+
+        this.validator.addSchema(schema, 'schema');
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+
+        var result = toSwagger({in: 'body'});
+        result.should.be.an.instanceof(Array).that.is.not.empty;
+        result.pop().schema.should.be.eql({
+            type: 'object',
+            properties: {
+                name: {type: 'string'},
+                country: {
+                    type: 'object',
+                    properties: {
+                        code_2: {
+                            type: 'string',
+                            description: 'description'
+                        },
+                    }
+                }
+            }
+        });
+    });
+
     it('should transform `type:["null", ...]` into `nullable: true` property (OAS v3)', function() {
         var schema = {
             type: 'object',
