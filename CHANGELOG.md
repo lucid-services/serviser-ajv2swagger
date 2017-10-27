@@ -1,3 +1,7 @@
+## 0.2.2
+
+* [FIXED] - `$ref` schema references should be resolved before the schema is sanitized to be Swagger compliant
+
 ## 0.2.1
 
 * [FIXED] - `toSwagger` function should not alter state of original validator schema object (schema object should be cloned)

@@ -19,8 +19,8 @@ function toSwagger(id, validator, oas) {
         throw new Error(`Schema: ${id} not found`);
     }
 
-    swagger = convert(schema.schema, oas);
-    swagger = resolveSchemaRefs(swagger, validator);
+    swagger = resolveSchemaRefs(schema.schema, validator);
+    swagger = convert(swagger, oas);
 
     /**
      * @param {Object} options
