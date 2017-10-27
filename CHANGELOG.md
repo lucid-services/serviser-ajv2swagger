@@ -1,3 +1,7 @@
+## 0.2.3
+
+* [FIXED] - resolved `$ref`s values should be cloned so that original referenced schema object is not altered
+
 ## 0.2.2
 
 * [FIXED] - `$ref` schema references should be resolved before the schema is sanitized to be Swagger compliant
