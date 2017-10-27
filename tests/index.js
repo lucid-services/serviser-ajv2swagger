@@ -231,9 +231,43 @@ describe('toSwagger', function() {
 
         const schemaBackup = _.cloneDeep(schema);
 
-        this.validator.addSchema(schema, 'schema', 2);
+        this.validator.addSchema(schema, 'schema');
         var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
         schema.should.be.eql(schemaBackup);
+    });
+
+    it('should NOT alter state of original schema object that has been used for resolving $ref', function() {
+        const prop = {//the schema structure matter in this test case!
+            type: "object",
+            properties: {
+                nested: {
+                    allOf: [
+                        {$toJSON: {}},
+                        {type: 'object'}
+                    ]
+                }
+            }
+        };
+
+        const schema = {
+            type: 'object',
+            required: ['prop'],
+            properties: {
+                prop: {$ref: 'prop'},
+                prop2: {
+                    type: 'integer',
+                    $desc: 'description'
+                }
+            }
+        };
+
+        const propBackup = _.cloneDeep(prop);
+
+        this.validator.addSchema(prop, 'prop');
+        this.validator.addSchema(schema, 'schema');
+
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+        prop.should.be.eql(propBackup);
     });
 
     it('should merge schemas of `oneOf` keyword into the parent schema (OAS v2) ', function() {

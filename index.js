@@ -90,12 +90,12 @@ function resolveSchemaRefs(val, validator, _root) {
                 if (val.$ref.indexOf('#') === 0) {
                     let path = _.compact(val.$ref.slice(1).split('/'));
                     if (_.has(_root, path)) {
-                        resolved = _.get(_root, path);
+                        resolved = _.cloneDeep(_.get(_root, path));
                         _.set(object, key, resolved);
 
                     }
                 } else if ((resolved = validator.getSchema(val.$ref))) {
-                    resolved = resolved.schema;
+                    resolved = _.cloneDeep(resolved.schema);
                     _.set(object, key, resolved);
                 }
 
