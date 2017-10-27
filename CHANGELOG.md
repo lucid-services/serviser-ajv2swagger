@@ -1,4 +1,4 @@
-## FUTURE
+## 0.2.2
 
 * [FIXED] - `$ref` schema references should be resolved before the schema is sanitized to be Swagger compliant
 
