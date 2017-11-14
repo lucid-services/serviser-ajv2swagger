@@ -1,3 +1,7 @@
+## FUTURE
+
+* [FIXED] - failure when a schema definition didn't have `properties` property
+
 ## 0.2.3
 
 * [FIXED] - resolved `$ref`s values should be cloned so that original referenced schema object is not altered

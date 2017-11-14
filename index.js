@@ -39,7 +39,7 @@ function toSwagger(id, validator, oas) {
             && !swagger.hasComplexDataStructures
         ) {
             var requiredProps = swagger.required || [];
-            Object.keys(swagger.properties).forEach(function(name) {
+            Object.keys(swagger.properties || {}).forEach(function(name) {
                 out.push(_.assign({
                     name: name,
                     in: options.in,
