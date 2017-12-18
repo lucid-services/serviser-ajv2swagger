@@ -270,6 +270,19 @@ describe('toSwagger', function() {
         prop.should.be.eql(propBackup);
     });
 
+    it('should NOT fail when a schema does not have the `properties` property', function() {
+        var schema = {
+            type: 'object',
+        };
+
+        this.validator.addSchema(schema, 'schema', 2);
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+
+        expect(function() {
+            toSwagger({in: 'formData'});
+        }).to.not.throw(Error);
+    });
+
     it('should merge schemas of `oneOf` keyword into the parent schema (OAS v2) ', function() {
         var schema = {
             type: 'object',

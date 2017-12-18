@@ -3,4 +3,5 @@ node_modules/
 coverage/
 .tern-project
 *.vim
+test.js
 npm-debug.log
