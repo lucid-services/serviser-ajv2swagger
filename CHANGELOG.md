@@ -1,4 +1,4 @@
-## FUTURE
+## 0.2.4
 
 * [FIXED] - failure when a schema definition didn't have `properties` property
 
