@@ -208,14 +208,19 @@ function convert(schema, oas, _parentSchema) {
         //before validation
         if (   schema.hasOwnProperty('allOf')
             && schema['allOf'] instanceof Array
-            && schema['allOf'].length === 2
-            && _.isPlainObject(schema['allOf'][0])
-            && _.isPlainObject(schema['allOf'][1])
-            && Object.keys(schema['allOf'][0]).length === 1
-            && schema['allOf'][0].hasOwnProperty('$toJSON')
         ) {
-            _.merge(schema, schema['allOf'][1]);
-            delete schema['allOf'];
+            if (schema['allOf'].length === 2
+                && _.isPlainObject(schema['allOf'][0])
+                && _.isPlainObject(schema['allOf'][1])
+                && Object.keys(schema['allOf'][0]).length === 1
+                && schema['allOf'][0].hasOwnProperty('$toJSON')
+            ) {
+                _.merge(schema, schema['allOf'][1]);
+                delete schema['allOf'];
+            } else if (schema['allOf'].length === 1) {
+                _.merge(schema, schema['allOf'][0]);
+                delete schema['allOf'];
+            }
         }
     }
 

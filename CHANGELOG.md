@@ -1,3 +1,7 @@
+## FUTURE
+
+* [FIXED] - `allOf` should be flatten/simplified when it has only single schema element
+
 ## 0.2.4
 
 * [FIXED] - failure when a schema definition didn't have `properties` property
