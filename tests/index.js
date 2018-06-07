@@ -211,6 +211,47 @@ describe('toSwagger', function() {
         });
     });
 
+    it('should get rid off the `allOf` when it has single element only', function() {
+        var schema = {
+            type: 'object',
+            required: ['prop'],
+            properties: {
+                prop: {
+                    default: {prop: 'value'},
+                    allOf: [
+                        {
+                            type: 'object',
+                            required: ['json'],
+                            properties: {
+                                json: { type: 'boolean' }
+                            }
+                        }
+                    ]
+                }
+            }
+        };
+
+        this.validator.addSchema(schema, 'schema', 2);
+        var toSwagger = ajv2swagger.toSwagger('schema', this.validator);
+
+        var result = toSwagger({in: 'body'});
+        result.should.be.an.instanceof(Array).that.is.not.empty;
+        result.pop().schema.should.be.eql({
+            type: 'object',
+            required: ['prop'],
+            properties: {
+                prop: {
+                    type: 'object',
+                    required: ['json'],
+                    default: {prop: 'value'},
+                    properties: {
+                        json: { type: 'boolean' }
+                    }
+                }
+            }
+        });
+    });
+
     it('should NOT alter state of original schema object', function() {
         const schema = {
             type: 'object',
