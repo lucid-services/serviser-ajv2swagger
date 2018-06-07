@@ -1,4 +1,4 @@
-## FUTURE
+## 0.2.5
 
 * [FIXED] - `allOf` should be flatten/simplified when it has only single schema element
 
