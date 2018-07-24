@@ -35,7 +35,7 @@ describe('toSwagger', function() {
             type: 'object',
             properties: {
                 code_3: {type: 'string'},
-                name: {$ref: 'name'},
+                name: {$ref: 'name', default: 'john'},
                 country: {
                     type: 'object',
                     properties: {
@@ -59,7 +59,7 @@ describe('toSwagger', function() {
             type: 'object',
             properties: {
                 code_3: {type: 'string'},
-                name: {type: 'string'},
+                name: {type: 'string', default: 'john'},
                 country: {
                     type: 'object',
                     properties: {
