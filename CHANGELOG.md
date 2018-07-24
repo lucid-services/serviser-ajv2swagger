@@ -1,3 +1,7 @@
+## 0.2.6
+
+* [FIXED] - don't drop additional properties defined alongside `$ref`s
+
 ## 0.2.5
 
 * [FIXED] - `allOf` should be flatten/simplified when it has only single schema element
