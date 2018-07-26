@@ -562,6 +562,42 @@ describe('toSwagger', function() {
                 ]);
             });
 
+            it('should generate correct schema for OAS v3', function() {
+                var schema = {
+                    type: 'object',
+                    required: ['email', 'name'],
+                    properties: {
+                        name: {type: 'string'},
+                        email: {type: 'string', format: 'email'},
+                        age: {type: 'integer'},
+                    }
+                };
+
+                this.validator.addSchema(schema, 'schema');
+                var toSwagger = ajv2swagger.toSwagger('schema', this.validator, 3);
+
+                toSwagger({in: $in}).should.be.eql([
+                    {
+                        name: 'name',
+                        in: $in,
+                        schema: {type: 'string'},
+                        required: true
+                    },
+                    {
+                        name: 'email',
+                        in: $in,
+                        schema: {type: 'string', format: 'email'},
+                        required: true
+                    },
+                    {
+                        name: 'age',
+                        in: $in,
+                        schema: {type: 'integer'},
+                        required: false
+                    },
+                ]);
+            });
+
             if (~['query', 'path'].indexOf($in)) {
                 it(`should throw a Error when there is an attempt to convert complex data structure to ${$in}`, function() {
                     var schema = {

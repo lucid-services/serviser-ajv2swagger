@@ -1,3 +1,7 @@
+## 0.2.7
+
+* [FIXED] - generated `parameters` collection of an operation should define property schema under `schema` property since OAS v3
+
 ## 0.2.6
 
 * [FIXED] - don't drop additional properties defined alongside `$ref`s
