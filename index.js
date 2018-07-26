@@ -40,11 +40,18 @@ function toSwagger(id, validator, oas) {
         ) {
             var requiredProps = swagger.required || [];
             Object.keys(swagger.properties || {}).forEach(function(name) {
-                out.push(_.assign({
+                let param = {
                     name: name,
                     in: options.in,
                     required: ~requiredProps.indexOf(name) ? true : false
-                }, swagger.properties[name]));
+                };
+
+                if (oas >= 3) {
+                    param.schema = swagger.properties[name];
+                } else {
+                    Object.assign(param, swagger.properties[name]);
+                }
+                out.push(param);
             });
         } else {
             //fall back to POST JSON body payload if data are of complex type
