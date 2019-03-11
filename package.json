@@ -1,6 +1,6 @@
 {
   "name": "serviser-ajv2swagger",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "author": "fogine",
   "license": "GPL-3.0",
   "description": "Generates swagger (Open API) specification out of provided ajv schema",

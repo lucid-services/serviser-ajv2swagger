@@ -1,4 +1,4 @@
-## FUTURE
+## 0.3.0
 
 * [CHANGED] - renamed project to `serviser-ajv2swagger`
 
