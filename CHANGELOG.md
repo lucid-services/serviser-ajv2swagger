@@ -1,3 +1,7 @@
+## 0.3.0
+
+* [CHANGED] - renamed project to `serviser-ajv2swagger`
+
 ## 0.2.7
 
 * [FIXED] - generated `parameters` collection of an operation should define property schema under `schema` property since OAS v3
